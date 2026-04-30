@@ -23,11 +23,15 @@ jobs:
       - name: Build (compilar)
         run: javac *.java
 
-      # 3. TEST
+      # 3. RUN (nova etapa)
+      - name: Rodar aplicação
+        run: java App
+
+      # 4. TEST
       - name: Rodar testes
         run: java AppTest
 
-      # 4. RELEASE (simples)
+      # 5. RELEASE
       - name: Gerar artefato .jar
         run: |
           jar cfe app.jar App *.class
