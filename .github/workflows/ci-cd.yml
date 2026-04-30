@@ -1,26 +1,39 @@
-name: Java CI
+name: Java CI/CD
 
 on:
   push:
     branches: [ "main" ]
-  pull_request:
 
 jobs:
-  build:
+  pipeline:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout do código
+      # 1. SETUP
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Instalar Java
+      - name: Setup Java
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '17'
+          distribution: temurin
+          java-version: 17
 
-      - name: Compilar
-        run: javac App.java
+      # 2. BUILD
+      - name: Build (compilar)
+        run: javac *.java
 
-      - name: Rodar aplicação
-        run: java App
+      # 3. TEST
+      - name: Rodar testes
+        run: java AppTest
+
+      # 4. RELEASE (simples)
+      - name: Gerar artefato .jar
+        run: |
+          jar cfe app.jar App *.class
+
+      - name: Upload artefato
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-jar
+          path: app.jar
