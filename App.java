@@ -1,11 +1,11 @@
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.List;
 
 class Cliente {
-    String nome;
-    String email;
+    private String nome;
+    private String email;
 
-    Cliente(String nome, String email) {
+    public Cliente(String nome, String email) {
         this.nome = nome;
         this.email = email;
     }
@@ -17,55 +17,37 @@ class Cliente {
 }
 
 public class App {
+
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        ArrayList<Cliente> clientes = new ArrayList<>();
+        List<Cliente> clientes = new ArrayList<>();
 
-        int opcao;
+        System.out.println("=== INICIANDO APLICAÇÃO ===");
 
-        do {
-            System.out.println("\n=== MENU ===");
-            System.out.println("1 - Cadastrar cliente");
-            System.out.println("2 - Listar clientes");
-            System.out.println("0 - Sair");
-            System.out.print("Escolha: ");
+        // Simulando cadastro
+        cadastrarCliente(clientes, "João", "joao@email.com");
+        cadastrarCliente(clientes, "Maria", "maria@email.com");
 
-            opcao = scanner.nextInt();
-            scanner.nextLine(); // limpar buffer
+        // Listando clientes
+        listarClientes(clientes);
 
-            switch (opcao) {
-                case 1:
-                    System.out.print("Nome: ");
-                    String nome = scanner.nextLine();
+        System.out.println("=== FINALIZADO ===");
+    }
 
-                    System.out.print("Email: ");
-                    String email = scanner.nextLine();
+    private static void cadastrarCliente(List<Cliente> clientes, String nome, String email) {
+        clientes.add(new Cliente(nome, email));
+        System.out.println("Cliente cadastrado: " + nome);
+    }
 
-                    clientes.add(new Cliente(nome, email));
-                    System.out.println("Cliente cadastrado!");
-                    break;
+    private static void listarClientes(List<Cliente> clientes) {
+        System.out.println("\n=== CLIENTES ===");
 
-                case 2:
-                    System.out.println("\n=== CLIENTES ===");
-                    if (clientes.isEmpty()) {
-                        System.out.println("Nenhum cliente cadastrado.");
-                    } else {
-                        for (Cliente c : clientes) {
-                            System.out.println(c);
-                        }
-                    }
-                    break;
+        if (clientes.isEmpty()) {
+            System.out.println("Nenhum cliente cadastrado.");
+            return;
+        }
 
-                case 0:
-                    System.out.println("Encerrando...");
-                    break;
-
-                default:
-                    System.out.println("Opção inválida!");
-            }
-
-        } while (opcao != 0);
-
-        scanner.close();
+        for (Cliente c : clientes) {
+            System.out.println(c);
+        }
     }
 }
